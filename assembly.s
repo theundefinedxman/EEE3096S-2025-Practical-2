@@ -135,14 +135,6 @@ delay_0_3s:                 @ Delay function which delays program by 0.3s
 	BNE delay_0_3s
 	BX LR
 
-clear_LEDs:
-	BL clear
-	B main_loop
-
-clear:
-	MOVS R2, #0x0           @ Put 0x0 on R2
-	STR R2, [R1 , #0x14]
-
 @ LITERALS; DO NOT EDIT
 	.align
 RCC_BASE: 			.word 0x40021000
