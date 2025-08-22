@@ -35,6 +35,7 @@ ASM_Main:
 	LDR R2, MODER_OUTPUT    @ Load MODER_OUTPUT memory address from memory to register R2
 	STR R2, [R1, #0]        @ Store register R2 on R1 at #0 memory address which is just 0101 0101 0101 0101 the sets PB0 - PB7 to output mode.
 	MOVS R2, #0         	@ Put #0 memory address to register R2 as R2 will be dedicated to holding the value on the LEDs
+    SUBS R2, R2 ,#1         @ Bug Fix
 
 @ TODO: Add code, labels and logic for button checks and LED patterns
 SW0_Pressed:
@@ -84,7 +85,11 @@ SW3_Pressed:
 
 main_loop:
 	 LDR R4, [R0, #0x10]    @ Load input data register from GPIOA to register R4.
-
+     
+	 MOVS R5, #0x03
+	 TST R4, R5
+	 BEQ SW0_SW1_Pressed
+  
 	 MOVS R5, #0x01         @ Put #0x01 to register R5 which is just a bit mask for PB0.
 	 TST R4, R5             @ Checks whether bit 0 of R4 is 0 if so z flag is set else cleared due to pull up resistors enabled.
 	 BEQ SW0_Pressed        @ if z flag is set the program will branch to label SWO condition else sequence follows.
